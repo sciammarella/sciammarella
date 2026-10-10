@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 33% 98.5%;
+    --foreground: 222 47% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 9%;
+    --primary: 222 52% 11%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 220 20% 94.5%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 9% 44%;
+    --accent: 220 20% 94.5%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 16% 89%;
+    --input: 220 16% 86%;
+    --ring: 164 72% 38%;
+    --signal: 164 72% 36%;
+    --signal-foreground: 0 0% 100%;
+    --signal-soft: 160 60% 94%;
+    --warn: 32 95% 44%;
+    --warn-soft: 40 96% 93%;
+    --demo: 262 70% 55%;
+    --demo-soft: 262 80% 96%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 224 40% 6%;
+    --foreground: 210 30% 96%;
+    --card: 224 36% 9%;
+    --card-foreground: 210 30% 96%;
+    --popover: 224 36% 9%;
+    --popover-foreground: 210 30% 96%;
+    --primary: 210 30% 96%;
+    --primary-foreground: 222 52% 11%;
+    --secondary: 224 26% 15%;
+    --secondary-foreground: 210 30% 96%;
+    --muted: 224 26% 14%;
+    --muted-foreground: 220 12% 64%;
+    --accent: 224 26% 15%;
+    --accent-foreground: 210 30% 96%;
+    --destructive: 0 70% 56%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 224 22% 18%;
+    --input: 224 22% 22%;
+    --ring: 164 70% 45%;
+    --signal: 164 70% 45%;
+    --signal-foreground: 222 52% 8%;
+    --signal-soft: 164 45% 13%;
+    --warn: 36 92% 56%;
+    --warn-soft: 36 50% 14%;
+    --demo: 262 80% 70%;
+    --demo-soft: 262 40% 16%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1, h2, h3 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+}

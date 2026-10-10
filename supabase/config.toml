@@ -1,0 +1,27 @@
+project_id = "farebuddy"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+
+[db]
+port = 54322
+major_version = 15
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173"]
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+
+[functions.monitor-missions]
+# Invoked by pg_cron with a shared secret, not a user JWT.
+verify_jwt = false
+
+[functions.api]
+verify_jwt = true
