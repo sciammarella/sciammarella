@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 30% 98%;
+    --foreground: 224 45% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 45% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 45% 10%;
+    --primary: 224 50% 14%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 220 22% 94%;
+    --secondary-foreground: 224 45% 12%;
+    --muted: 220 22% 95%;
+    --muted-foreground: 220 10% 42%;
+    --accent: 220 22% 94%;
+    --accent-foreground: 224 45% 12%;
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 16% 88%;
+    --input: 220 16% 84%;
+    --ring: 172 70% 32%;
+    --brand: 172 70% 30%;
+    --brand-soft: 168 55% 93%;
+    --demo: 268 70% 52%;
+    --demo-soft: 268 85% 96%;
+    --info: 212 80% 45%;
+    --info-soft: 212 90% 95%;
+    --attention: 33 92% 42%;
+    --attention-soft: 40 96% 92%;
+    --critical: 0 72% 48%;
+    --critical-soft: 0 85% 95%;
+    --positive: 152 60% 34%;
+    --negative: 0 70% 48%;
+    --risk-1: 152 60% 36%;
+    --risk-2: 100 45% 40%;
+    --risk-3: 42 90% 44%;
+    --risk-4: 22 88% 50%;
+    --risk-5: 0 72% 48%;
+    --radius: 0.75rem;
+    --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial;
+  }
+  .dark {
+    --background: 224 40% 6%;
+    --foreground: 210 30% 96%;
+    --card: 224 36% 9%;
+    --card-foreground: 210 30% 96%;
+    --popover: 224 36% 9%;
+    --popover-foreground: 210 30% 96%;
+    --primary: 210 30% 96%;
+    --primary-foreground: 224 50% 12%;
+    --secondary: 224 26% 15%;
+    --secondary-foreground: 210 30% 96%;
+    --muted: 224 26% 14%;
+    --muted-foreground: 220 12% 64%;
+    --accent: 224 26% 15%;
+    --accent-foreground: 210 30% 96%;
+    --border: 224 22% 18%;
+    --input: 224 22% 22%;
+    --brand: 170 60% 45%;
+    --brand-soft: 170 40% 14%;
+    --demo-soft: 268 40% 16%;
+    --info-soft: 212 40% 15%;
+    --attention-soft: 36 50% 14%;
+    --critical-soft: 0 45% 15%;
+  }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground antialiased; font-feature-settings: "cv11", "ss01"; }
+  h1, h2, h3 { @apply tracking-tight; }
+}
+
+@layer utilities {
+  .tabular { font-variant-numeric: tabular-nums; }
+  .bg-grid {
+    background-image: linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+}
