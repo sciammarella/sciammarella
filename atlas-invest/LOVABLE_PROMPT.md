@@ -184,3 +184,103 @@ Finalize o MVP:
 
 4) Página Metodologia completa: perfil, motor de risco (componentes, pesos e piso), retorno esperado e cenários, builder e estresses, monitoramento e alertas, fontes de dados (nenhuma tratada como tempo real), limites regulatórios (análise informativa; recomendação personalizada comercial exige avaliação jurídica e autorizações — CVM no Brasil, SEC/estados nos EUA; um disclaimer sozinho não basta) e LGPD.
 ```
+
+---
+
+## Prompt 7 — UX de app de banco brasileiro (navegação, linguagem e formato)
+
+```
+Vamos deixar o Atlas com cara de app de banco brasileiro (referências: Nubank, Inter, Itaú, PicPay), para quem nunca usou ferramenta de investimento profissional. NÃO altere nenhum cálculo de src/domain/ nem as regras do produto; mude só apresentação, textos e navegação. Os detalhes técnicos continuam acessíveis.
+
+1) Navegação mobile-first
+- No celular, troque o menu lateral por uma barra inferior fixa com 5 abas e ícones: Início, Investir, Minha carteira, Avisos (com bolinha vermelha e número), Perfil. No desktop mantenha a sidebar com os mesmos 5 itens; Recomendações, Agente IA e Configurações ficam dentro de "Perfil" e "Investir".
+- Uma ação principal por tela, com botão grande e fixo no rodapé no celular (estilo fluxo do Pix). Ações secundárias como links.
+
+2) Tela Início (substitui o Dashboard)
+- Topo: "Olá, {primeiro nome}" e o patrimônio total em fonte grande com ícone de olho para ocultar/mostrar valores (troca todos os valores do app por "R$ ••••"); preferência salva no navegador. Abaixo: "Rendeu R$ X nos últimos 30 dias (simulado)" em verde/vermelho.
+- Linha de atalhos em ícones redondos: Simular, Montar carteira, Adicionar investimento, Ver avisos.
+- Se houver aviso crítico aberto, um card vermelho no topo, antes de tudo.
+- Cards em sequência: "Suas caixinhas" (portfólios com barra de progresso), "Sua carteira vs. CDI e poupança" (gráfico simples só com essas 3 linhas; Ibovespa e S&P 500 em "Mais comparações"), "Avisos recentes", "Sugestões que combinam com você".
+- Indicadores técnicos (volatilidade, HHI, componentes de risco, correlação) saem do Início e vão para "Ver análise completa" dentro de cada carteira.
+
+3) Falar em reais, não só em porcentagem
+- Em todo lugar que mostrar retorno esperado, mostrar também o valor: "R$ 10.000 podem virar cerca de R$ 18.500 em 4 anos" (calcule com o cenário-base e o horizonte do usuário; use o valor investido real quando houver).
+- Substitua a barra pessimista/base/otimista por 3 cartões lado a lado: "Se for mal", "O mais provável", "Se for bem", cada um com o valor final em R$ e o % a.a. pequeno embaixo. Rodapé: "Estimativas, não garantias."
+- Risco em dinheiro: "Num ano muito ruim, seus R$ 50.000 poderiam cair para cerca de R$ 42.800" (use o pior teste de estresse).
+
+4) CDI e poupança como régua
+- Em cada ativo e carteira: "≈ 112% do CDI" e "2,3× a poupança" (poupança = 70% da Selic quando Selic > 8,5% a.a.; senão 0,5% ao mês + TR, considere TR = 0). Calcule com o cenário-base.
+- Mostre rentabilidade LÍQUIDA de IR por padrão quando houver estimativa, com o texto "líquido de IR"; a bruta aparece ao tocar.
+
+5) Rótulos e selos em linguagem simples (componente reutilizável de "chips"):
+- Liquidez: D+0 → "Resgate na hora"; D+1 → "Resgate no dia seguinte"; D+2 a D+5 → "Resgate em até N dias úteis"; só no vencimento → "Dinheiro preso até {mês/ano}".
+- Garantia: crédito bancário com FGC → selo verde "Protegido pelo FGC até R$ 250 mil"; FDIC → "Protegido pelo FDIC até US$ 250 mil"; sem garantia → selo cinza "Sem garantia do FGC".
+- Imposto: isento PF → "Sem imposto de renda"; regressivo → "IR de 15% a 22,5% sobre o lucro".
+- Risco: termômetro horizontal de 5 segmentos (Muito baixo → Muito alto) com a nota 1–10 pequena ao lado; no perfil, mostrar onde o usuário está na mesma régua.
+- Compatibilidade: "alta" → "Combina com você"; "média" → "Combina em parte"; "baixa" → "Pouco indicado para você"; "incompatível" → "Não combina com seu perfil" (com o motivo em uma linha).
+- Troque o selo "DEMO" por "Simulação" (mesmo roxo e ícone), com tooltip "Valores de exemplo, não são preços reais". Banner: "Você está vendo valores de simulação."
+
+6) Jargão escondido, não removido
+- Ícone "?" ao lado de termos técnicos (CDI, Selic, IPCA, FGC, duration, volatilidade, drawdown, stablecoin, tokenizado, liquidez, marcação a mercado) que abre um bottom sheet com explicação de 2 linhas e um exemplo. Centralize os textos num glossário (src/content/glossary.ts) também acessível em Perfil > Glossário.
+- Seções técnicas (componentes de risco, correlação, HHI, metodologia, evidências JSON) ficam em accordions fechados chamados "Ver análise completa" / "Ver detalhes técnicos".
+
+7) Formato brasileiro em todo o app
+- Moeda sempre "R$ 1.234,56" e "US$ 1,234.56" só para valores em dólar; percentuais com vírgula ("16,7%"), inclusive nos textos de alertas e relatórios do agente (crie uma função de formatação única e use em todo lugar, inclusive nas edge functions).
+- Datas "18 de out." / "18 de out. de 2026"; horas "às 14h30"; agrupamentos "Hoje", "Ontem", "Esta semana".
+- Campos de valor com máscara de reais e botões de atalho: R$ 1 mil, R$ 10 mil, R$ 50 mil, R$ 100 mil+.
+
+8) Confiança e acessibilidade
+- Faixa discreta e fixa em Início e Investir: "O Atlas nunca movimenta seu dinheiro e nunca pede a senha do seu banco."
+- Respeitar o tamanho de fonte do sistema (use rem), contraste AA, alvos de toque ≥ 44px, modo escuro seguindo o sistema com opção em Perfil.
+- No login: "Lembrar meu e-mail" e mostrar/ocultar senha.
+
+Ao final, confira em 390px e 1280px que todas as telas seguem esse padrão e que nenhum número do app mudou (só a forma de mostrar).
+```
+
+---
+
+## Prompt 8 — Caixinhas, simulador, onboarding conversacional e avisos humanos
+
+```
+Continue a adaptação para o público de apps de banco brasileiros. Não altere os cálculos de src/domain/; reutilize-os.
+
+1) Caixinhas (objetivos)
+- Portfólios passam a se chamar "caixinhas" na interface. Campos novos em portfolios: emoji, goal_amount (meta em R$), goal_date, goal_type ('reserva_emergencia' | 'viagem' | 'casa' | 'aposentadoria' | 'educacao' | 'outro').
+- Card de caixinha: emoji, nome, valor atual / meta, barra de progresso, "faltam R$ X até {mês/ano}" e "guardando R$ Y por mês você chega lá no cenário mais provável" (calcule com o retorno esperado da carteira).
+- Caixinha "Reserva de emergência" (atalho na criação): sugere 6× gasto mensal informado, força liquidez "Resgate na hora/dia seguinte", risco máximo 2/10 e só renda fixa com FGC ou Tesouro Selic, independentemente do perfil geral.
+- Cada caixinha pode ter horizonte e tolerância próprios (usa deriveProfile com as respostas do perfil sobrescritas pelo objetivo).
+
+2) Fluxo "Montar carteira" (substitui a entrada do Portfolio Builder)
+Passos em telas cheias, uma pergunta por tela, botão fixo no rodapé:
+ (1) "Para que é esse dinheiro?" — cards com emoji dos tipos de objetivo;
+ (2) "Quanto você tem para começar?" e "Consegue guardar quanto por mês?" — campos com máscara e atalhos;
+ (3) "Para quando?" — chips (até 1 ano, 1–3, 3–5, mais de 5) ou data;
+ (4) resultado: as 3 alternativas como cards deslizáveis (carrossel no celular) com "Combina com você" no topo; cada card mostra os 3 cenários em R$, "≈ X% do CDI", "Num ano ruim pode cair até R$ Y", "Resgate: N% na hora" e a lista de investimentos com chips; botão "Criar caixinha com essa carteira". O detalhamento atual (estresse, correlação, custos) fica em "Ver análise completa".
+Se a meta for incompatível, mostrar um card amarelo amigável: "Com seu perfil, o mais provável é chegar a R$ X, não R$ Y. Para chegar à meta você pode aumentar o valor mensal para R$ Z ou o prazo para N anos." (calcule Z e N pelo retorno esperado da alternativa compatível). Nunca sugerir aumentar o risco.
+
+3) Simulador (aba Investir e também na landing, antes do cadastro)
+- Sliders: "Quanto você tem hoje", "Quanto pode guardar por mês", "Por quanto tempo" (1 a 30 anos).
+- Resultado em R$ comparando: Poupança, CDB 100% do CDI (líquido de IR), Tesouro IPCA+ e "Carteira sugerida para você" (se logado, usa a proposta compatível; se não, mostra a Equilibrada para perfil Moderado). Gráfico de linhas simples com valores em R$ e uma faixa sombreada entre pessimista e otimista para a carteira.
+- Texto: "Simulação com taxas atuais; não é garantia." e botão "Quero montar essa carteira" (leva ao cadastro ou ao fluxo de montar carteira).
+
+4) Onboarding conversacional
+- Uma pergunta por tela, com tom de conversa e exemplos em reais do próprio valor informado. Ex.: "Imagina que seus R$ 50.000 viraram R$ 40.000 em 3 meses. O que você faria?" → "Resgataria tudo" (baixa), "Ficaria preocupado, mas esperaria" (moderada), "Esperaria com tranquilidade" (alta), "Aproveitaria para investir mais" (muito alta).
+- Mercados e classes viram perguntas simples: "Quer investir também nos EUA?" (sim/não/não sei → BR+EUA com limite baixo) e "Topa ter uma parte pequena em cripto?" (sim/não/não sei → excluir cripto se não).
+- Resultado num cartão grande "Você é Moderado" com 3 frases curtas, o termômetro de risco, "O que isso significa para você" (queda máxima que você disse aceitar, em R$) e "Por que?" expansível com a explicação completa atual. Botão "Montar minha primeira caixinha".
+
+5) Avisos com tom humano
+- Reescreva o título e o resumo de cada regra de alerta (mantendo as evidências e campos atuais) no formato:
+  Título curto com emoji: "📉 Seu Bitcoin caiu 18% hoje".
+  Linha 1, impacto em R$: "Na sua carteira isso é −R$ 79 (0,16% do total)."
+  Linha 2, contexto: "Quedas assim são comuns em cripto. Sua carteira continua dentro do seu perfil." (varie por regra e severidade; para crítico: "Vale olhar com atenção hoje.")
+  Botões: "Entender o que aconteceu" (abre o detalhe atual) e "Ver minha caixinha".
+- Exemplos por regra: depeg → "⚠️ O USDT perdeu a paridade com o dólar"; evento de crédito → "🏦 O banco do seu CDB foi rebaixado"; desvio → "🔄 Sua carteira saiu do plano"; câmbio → "💵 O dólar subiu 6% e sua carteira sentiu"; juros → "📈 O CDI subiu: seus pós-fixados vão render mais".
+- Aba Avisos em formato de extrato agrupado por "Hoje", "Ontem", "Esta semana", "Anteriores", com ícone de severidade e valor em R$ à direita.
+- Em Perfil > Notificações, adicionar o canal "WhatsApp (em breve)" desabilitado, ao lado de e-mail e webhook, e "Resumo diário às 19h" (toggle).
+
+6) Agente IA como "Assistente"
+- Renomeie para "Assistente Atlas", com interface de chat (balões), sugestões de perguntas em chips ("Minha meta é realista?", "Estou correndo muito risco?", "O que fazer com minha reserva?") e respostas curtas primeiro, com "Ver relatório completo" abrindo o relatório atual com evidências.
+- Ajuste o system prompt para responder em linguagem simples, sempre em reais e comparando com CDI/poupança, mantendo todas as regras atuais (números só das ferramentas, sem garantias, sem ordens).
+
+Revise o fluxo completo no celular: simulador na landing → cadastro → onboarding conversacional → montar caixinha "Reserva de emergência" → montar caixinha "Aposentadoria" → aplicar cenário de simulação → ver aviso humano → perguntar ao Assistente.
+```
